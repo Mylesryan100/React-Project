@@ -10,6 +10,8 @@ function CountryCard() {
   useEffect(() => {
     const fetchCountry = async () => {
       try {
+        setError(null);
+        setCountry(null);
         const response = await fetch(
           `https://restcountries.com/v3.1/alpha/${code}`
         );
@@ -17,6 +19,7 @@ function CountryCard() {
         setCountry(data[0]);
       } catch (error) {
         console.error(error);
+        setError("Failed to load country details. Please try again.");
       }
     };
 
