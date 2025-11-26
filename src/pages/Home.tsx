@@ -9,37 +9,33 @@ function Home() {
   const [region, setRegion] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-
-
-
-
   useEffect(() => {
-  const fetchCountries = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(
-        "https://restcountries.com/v3.1/all?fields=cca3,name,flags,population,region,capital"
-      );
+    const fetchCountries = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch(
+          "https://restcountries.com/v3.1/all?fields=cca3,name,flags,population,region,capital"
+        );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error: ${response.status}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setCountries(data);
+      } catch (error) {
+        console.error(error);
+        setError("Failed to load countries. Try again later.");
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const data = await response.json();
-      setCountries(data);
-    } catch (error) {
-      console.error(error);
-      setError("Failed to load countries. Try again later.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchCountries();
+  }, []);
 
-  fetchCountries();
-}, []);
-
-  const filtered = countries.filter(country => {
+  const filtered = countries.filter((country) => {
     const matchesSearch = country.name.common
       .toLowerCase()
       .includes(search.toLowerCase());
@@ -49,15 +45,12 @@ function Home() {
     return matchesSearch && matchesRegion;
   });
 
-
-   return (
+  return (
     <main className="mx-auto max-w-6xl px-4 py-8 text-slate-900 dark:text-slate-100">
-      {/* Filters */}
       <section
         className="mb-8 flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
         aria-label="Search and filter countries"
       >
-        {/* Search */}
         <div className="w-full max-w-md">
           <label className="visually-hidden" htmlFor="search-input">
             Search for a country
@@ -72,7 +65,6 @@ function Home() {
           />
         </div>
 
-        {/* Region Filter */}
         <div>
           <label className="visually-hidden" htmlFor="region-filter">
             Filter by Region
@@ -93,7 +85,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Loading / Error states */}
       {loading && (
         <p className="mb-4 text-center text-slate-500 dark:text-slate-400">
           Loading countries…
@@ -112,7 +103,6 @@ function Home() {
         </p>
       )}
 
-      {/* Countries Grid */}
       <section
         className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
         aria-label="List of countries"

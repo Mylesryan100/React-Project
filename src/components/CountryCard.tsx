@@ -50,7 +50,6 @@ function CountryCard() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      {/* Back button */}
       <Link
         to="/"
         className="inline-flex items-center gap-2 rounded-md bg-white px-5 py-2 text-sm font-semibold text-slate-800 shadow hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
@@ -58,9 +57,7 @@ function CountryCard() {
         ⬅ Back
       </Link>
 
-      {/* Layout */}
       <div className="mt-8 grid gap-10 md:grid-cols-2 md:items-center">
-        {/* Flag */}
         <div>
           <img
             src={country.flags.svg}
@@ -69,7 +66,6 @@ function CountryCard() {
           />
         </div>
 
-        {/* Details */}
         <div className="space-y-4">
           <h2 className="text-2xl font-extrabold md:text-3xl">
             {country.name.common}
@@ -90,7 +86,6 @@ function CountryCard() {
             </li>
           </ul>
 
-          {/* Border Countries */}
           {country.borders?.length ? (
             <div className="mt-4">
               <span className="text-sm font-semibold md:text-base">
