@@ -14,34 +14,30 @@ function Home() {
 
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") document.body.classList.add("dark");
+  const fetchCountries = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(
+        "https://restcountries.com/v3.1/all?fields=cca3,name,flags,population,region,capital"
+      );
 
-
-    const fetchCountries = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await fetch(
-          "https://restcountries.com/v3.1/all?fields=cca3,name,flags,population,region,capital"
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error: ${response.status}`);
-        }
-
-
-        const data = await response.json();
-        setCountries(data);
-      } catch (error) {
-        console.error(error);
-        setError("Failed to load countries. Try again later.");
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
       }
-    };
-    fetchCountries();
-  }, []);
+
+      const data = await response.json();
+      setCountries(data);
+    } catch (error) {
+      console.error(error);
+      setError("Failed to load countries. Try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchCountries();
+}, []);
 
   const filtered = countries.filter(country => {
     const matchesSearch = country.name.common
